@@ -23,6 +23,7 @@
                     <th>Data do ingresso</th>
                     <th>Tipo de ingresso</th>
                     <th>Número do ingresos</th>
+                    <th></th>
                 </tr>
 
                 {% for visitor in visitors %}
@@ -34,6 +35,13 @@
                         <td>{{ visitor.ticket_date|date:"d/m/Y" }}</td>
                         <td>{{ visitor.get_ticket_type_display }}</td>
                         <td>{{ visitor.ticket_code }}</td>
+                        <td><a href="./update/{{ visitor.id }}/" class="btn btn-outline-primary">Editar</a></td>
+                        <td>
+                            <form action="./delete/{{ visitor.id }}/" method="post">
+                                {% csrf_token %}
+                                <input type="submit" value="Deletar" class="btn btn-danger" onclick="return confirm(`Você tem certeza?\nEssa ação ira remover o visitante: {{ visitor.first_name }} {{ visitor.last_name }}`)">
+                            </form>
+                        </td>
                     </tr>
                 {% endfor %}
             </table>
