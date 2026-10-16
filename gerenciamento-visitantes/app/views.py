@@ -40,12 +40,13 @@ def update_visitor(request: HttpRequest, id: int) -> HttpResponse:
         visitor.last_name = request.POST['last_name']
         visitor.cpf = request.POST['cpf']
         visitor.birthdate = datetime.strptime(request.POST['birthdate'], '%Y-%m-%d')
+        visitor.ticket_date = datetime.strptime(request.POST['ticket_date'], '%Y-%m-%d')
+        visitor.ticket_type = request.POST['ticket_type']
+
         visitor.save()
         return redirect('visitors')
-    
+
     visitor = Visitor.objects.get(pk=id)
-    visitor.birthdate = datetime.strftime(visitor.birthdate, '%Y-%m-%d')
-    visitor.ticket_date = datetime.strftime(visitor.ticket_date, '%Y-%m-%d')
 
     response = {
         'visitor': visitor
