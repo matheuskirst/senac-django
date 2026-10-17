@@ -35,10 +35,7 @@
                     <td>{{ visitor.get_ticket_type_display }}</td>
                     <td style="display: flex; flex-direction: row; gap: 20px; justify-content: center;">
                         <a href="./update/{{ visitor.id }}/" class="btn btn-outline-primary">Editar</a>
-                        <form action="./delete/{{ visitor.id }}/" method="post">
-                            {% csrf_token %}
-                            <input type="submit" value="Remover" class="btn btn-danger" onclick="return confirm(`Você tem certeza?\nEssa ação ira remover o visitante: {{ visitor.first_name }} {{ visitor.last_name }}`)">
-                        </form>
+                        <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#delete-modal" data-visitor-id="{{ visitor.id }}"  data-visitor-name="{{ visitor.first_name }} {{ visitor.last_name }}">Remover</button>
                     </td>
                 </tr>
                 {% endfor %}
@@ -47,5 +44,39 @@
             <a href="./create/" class="btn btn-outline-primary">Novo visitante</a>
         </div>
     </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="delete-modal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Remover visitante</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Tem certeza que deseja remover o visitante <strong id="visitor-name"></strong>?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <form id="delete-form" method="post">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger">Remover permanentemente</button>
+                </form>
+            </div>
+            </div>
+        </div>
+    </div>
 </body>
+<script>
+    const deleteModal = document.getElementById('delete-modal');
+    const deleteForm = document.getElementById('delete-form');
+    deleteModal.addEventListener('show.bs.modal', function(event) {
+        const deleteButton = event.relatedTarget;
+        const visitorName = deleteButton.getAttribute('data-visitor-name');
+        const visitorId = deleteButton.getAttribute('data-visitor-id');
+        document.getElementById('visitor-name').textContent = visitorName;
+
+        deleteForm.action = `./delete/${visitorId}/`
+    });
+</script>
 </html>
