@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-bs-theme="dark">
 <head>
     {% load static %}
     
@@ -12,6 +12,10 @@
     <title>Atualizar Visitante</title>
 </head>
 <body>
+    <header>
+        {% include 'navbar.html' %}
+    </header>
+
     <div class="container-fluid pt-5">
         <h1>Atualizar visitante existente</h1>
         <p>Use o formulário abaixo para atualizar o visitante</p>
@@ -46,7 +50,7 @@
             <input type="submit" value="Atualizar" class="btn btn-success mt-3 btn-custom">
         </form>
 
-        <a href="../../" class="btn btn-outline-primary mt-3 btn-custom">Voltar</a>
+        <a href="{% url 'visitors' %}" class="btn btn-outline-primary mt-3 btn-custom">Voltar</a>
     </div>
 </body>
 </html>
