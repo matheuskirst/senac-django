@@ -1,0 +1,52 @@
+<nav class="navbar navbar-expand-lg bg-body-tertiary border-bottom">
+    <div class="container">
+        <a class="navbar-brand" href="{% url 'home' %}">PARQUE DA OKTOBERFEST</a>
+
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menu-principal"
+        aria-controls="menu-principal" aria-expanded="false" aria-label="Alternar navegação">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="menu-principal">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item">
+                    <a class="nav-link {% if request.path == '/' %} active {% endif %}" href="{% url 'home' %}">Início</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {% if request.path == '/visitors/create/' %} active {% endif %}" href="{% url 'create-visitor' %}">Cadastrar visitante</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {% if request.path == '/visitors/' %} active {% endif %}" href="{% url 'visitors' %}">Visitantes</a>
+                </li>
+            </ul>
+        </div>
+
+        <button id="toggle-theme">
+            Tema
+        </button>
+    </div>
+</nav>
+<script>
+    const button = document.getElementById('toggle-theme');
+    const savedTheme = localStorage.getItem('theme');
+    if (!savedTheme){
+        savedTheme = 'light'
+        localStorage.setItem('theme', savedTheme)
+    }
+
+    const html = document.querySelector('html');
+    html.setAttribute('data-bs-theme', savedTheme);
+
+    button.addEventListener('click', function(e) {
+        const currentTheme = localStorage.getItem('theme')
+        let value;
+        if (currentTheme == 'dark') {
+            value = 'light';
+        }
+        else {
+            value = 'dark';
+        }
+        html.setAttribute('data-bs-theme', value);
+        localStorage.setItem('theme', value);
+    });
+</script>
