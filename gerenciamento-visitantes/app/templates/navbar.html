@@ -30,7 +30,7 @@
     const button = document.getElementById('toggle-theme');
     const savedTheme = localStorage.getItem('theme');
     if (!savedTheme){
-        savedTheme = 'light'
+        const savedTheme = 'light'
         localStorage.setItem('theme', savedTheme)
     }
 
