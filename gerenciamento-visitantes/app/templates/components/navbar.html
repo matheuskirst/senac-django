@@ -1,5 +1,5 @@
 <nav class="navbar navbar-expand-lg bg-body-tertiary border-bottom">
-    <div class="container">
+    <div class="container-fluid">
         <a class="navbar-brand" href="{% url 'home' %}">PARQUE DA OKTOBERFEST</a>
 
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menu-principal"
@@ -20,33 +20,6 @@
                 </li>
             </ul>
         </div>
-
-        <button id="toggle-theme">
-            Tema
-        </button>
+        {% include './themeButton.html' %}
     </div>
 </nav>
-<script>
-    const button = document.getElementById('toggle-theme');
-    const savedTheme = localStorage.getItem('theme');
-    if (!savedTheme){
-        const savedTheme = 'light'
-        localStorage.setItem('theme', savedTheme)
-    }
-
-    const html = document.querySelector('html');
-    html.setAttribute('data-bs-theme', savedTheme);
-
-    button.addEventListener('click', function(e) {
-        const currentTheme = localStorage.getItem('theme')
-        let value;
-        if (currentTheme == 'dark') {
-            value = 'light';
-        }
-        else {
-            value = 'dark';
-        }
-        html.setAttribute('data-bs-theme', value);
-        localStorage.setItem('theme', value);
-    });
-</script>

@@ -15,12 +15,22 @@
 </head>
 <body>
     <header>
-        {% include 'navbar.html' %}
+        {% include 'components/navbar.html' %}
     </header>
 
     <main class="container-fluid pt-2">
         {% block content %}
         {% endblock %}
     </main>
+    <script>
+        const savedTheme = localStorage.getItem('theme');
+        if (!savedTheme){
+            const savedTheme = 'light'
+            localStorage.setItem('theme', savedTheme)
+        }
+
+        const html = document.querySelector('html');
+        html.setAttribute('data-bs-theme', savedTheme);
+    </script>
 </body>
 </html>

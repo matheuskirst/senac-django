@@ -1,3 +1,8 @@
 .btn-custom {
     width: 120px;
 }
+
+.btn-theme-toggler {
+    background: none;
+    border: none;
+}
