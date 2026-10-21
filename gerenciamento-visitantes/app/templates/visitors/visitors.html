@@ -10,31 +10,33 @@ Visitantes
     <p>Abaixo está a lista de visitantes do parque</p>
 
     <div class="table-responsive">
-        <table class="table">
-            <tr>
-                <th>id</th>
-                <th>Nome completo</th>
-                <th>CPF</th>
-                <th>Data de nascimento</th>
-                <th>Data do ingresso</th>
-                <th>Tipo de ingresso</th>
-                <th style="text-align: center;">Ações</th>
-            </tr>
+        <table class="table table-bordered table-striped table-hover">
+            <thead>
+                <tr>
+                    <th>Nome completo</th>
+                    <th>CPF</th>
+                    <th>Data de nascimento</th>
+                    <th>Data do ingresso</th>
+                    <th>Tipo de ingresso</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
 
-            {% for visitor in visitors %}
-            <tr>
-                <td>{{ visitor.id }}</td>   
-                <td>{{ visitor.first_name }} {{ visitor.last_name }}</td>
-                <td>{{ visitor.cpf }}</td>
-                <td>{{ visitor.birthdate|date:"d/m/Y" }}</td>
-                <td>{{ visitor.ticket_date|date:"d/m/Y" }}</td>
-                <td>{{ visitor.get_ticket_type_display }}</td>
-                <td style="display: flex; flex-direction: row; gap: 20px; justify-content: center;">
-                    <a href="./update/{{ visitor.id }}/" class="btn btn-outline-primary">Editar</a>
-                    <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#delete-modal" data-visitor-id="{{ visitor.id }}"  data-visitor-name="{{ visitor.first_name }} {{ visitor.last_name }}">Remover</button>
-                </td>
-            </tr>
-            {% endfor %}
+            <tbody class="table-group-divider">
+                {% for visitor in visitors %}
+                <tr>
+                    <td>{{ visitor.first_name }} {{ visitor.last_name }}</td>
+                    <td>{{ visitor.cpf }}</td>
+                    <td>{{ visitor.birthdate|date:"d/m/Y" }}</td>
+                    <td>{{ visitor.ticket_date|date:"d/m/Y" }}</td>
+                    <td>{{ visitor.get_ticket_type_display }}</td>
+                    <td>
+                        <a href="./update/{{ visitor.id }}/" class="btn btn-outline-primary">Editar</a>
+                        <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#delete-modal" data-visitor-id="{{ visitor.id }}"  data-visitor-name="{{ visitor.first_name }} {{ visitor.last_name }}">Remover</button>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
         </table>
 
         <a href="{% url 'create-visitor' %}" class="btn btn-outline-primary">Novo visitante</a>
@@ -62,4 +64,16 @@ Visitantes
         </div>
     </div>
 </div>
+<script>
+    const deleteModal = document.getElementById('delete-modal');
+    const deleteForm = document.getElementById('delete-form');
+    deleteModal.addEventListener('show.bs.modal', function(event) {
+        const deleteButton = event.relatedTarget;
+        const visitorName = deleteButton.getAttribute('data-visitor-name');
+        const visitorId = deleteButton.getAttribute('data-visitor-id');
+        document.getElementById('visitor-name').textContent = visitorName;
+
+        deleteForm.action = `./delete/${visitorId}/`
+    });
+</script>
 {% endblock %}
