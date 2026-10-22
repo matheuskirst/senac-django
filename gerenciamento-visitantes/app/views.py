@@ -8,6 +8,10 @@ def home(request: HttpRequest) -> HttpResponse:
     return render(request, 'home/home.html')
 
 def visitors(request: HttpRequest) -> HttpResponse:
+    if request.method == 'POST':
+        ...
+        return redirect(to='visitors')
+
     visitors = Visitor.objects.all()
 
     response = {

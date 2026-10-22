@@ -6,9 +6,22 @@ Cadastrar Visitante
 
 {% block content %}
 <div>
-    <h1>Página inicial - Gerenciamento de visitantes</h1>
-    <p>Bem vindo ao nosso site</p>
-
-    <a class="btn btn-outline-primary" href="{% url 'visitors' %}">Ver a lista de visitantes</a>
+    <div class="d-flex">
+        <div class="col text-center">
+            <h3>Página inicial - Gerenciamento de visitantes</h3>
+            <p>Bem vindo ao nosso site</p>
+            
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse ut interdum odio. Nulla ac velit est. Mauris congue imperdiet mauris vel luctus. Nullam nec posuere eros. Proin eleifend mi vitae accumsan hendrerit. Mauris commodo justo elit, vitae pellentesque augue auctor a. Aliquam urna enim, rhoncus in leo sed, volutpat viverra tortor. Maecenas nibh libero, convallis ut neque vel, lacinia malesuada turpis. Donec accumsan ac turpis egestas efficitur. Aliquam erat volutpat. In ut libero sed justo tempor ultrices a eget felis. Integer blandit risus ligula, sed aliquet dolor ornare ac.</p>
+            <p>Etiam sagittis est diam, sit amet mollis mauris egestas vel. Quisque tincidunt, purus eget dignissim scelerisque, nisi massa ultrices mi, ut convallis augue dui nec justo. Vestibulum convallis molestie sagittis. Cras id neque condimentum, iaculis dolor vel, hendrerit sem. Donec quis tellus egestas, scelerisque nulla quis, commodo velit.</p>
+            <p>Phasellus pharetra condimentum lacus, nec congue felis tempor sed. Etiam id pretium tellus, ut vulputate sem. Sed quis placerat augue. Donec pellentesque dui vel libero varius, eu euismod purus pulvinar. Praesent accumsan vitae sapien eget laoreet. Mauris ac congue leo. Nulla ullamcorper consequat velit et euismod.</p>
+            <p>Nunc sed volutpat risus. Nullam vulputate ut urna a consequat. Etiam sed augue finibus, blandit justo sed, dapibus erat. Aenean ac nisi et odio vehicula placerat nec non quam. Duis sagittis, sapien cursus egestas molestie, tellus quam porttitor risus, sed tincidunt urna felis at nulla. Vivamus aliquam hendrerit lacus, egestas placerat dui. Fusce elementum iaculis diam, in pulvinar quam. Aliquam sagittis nunc ut sem pretium posuere. Nulla maximus erat id posuere congue. Aliquam sodales nunc diam, quis tincidunt velit tempor eget. Suspendisse nec tincidunt est.</p>
+            
+            <a class="btn btn-outline-primary" href="{% url 'visitors' %}">Ver a lista de visitantes</a>
+        </div>
+    
+        <div class="col d-flex justify-content-center">
+            <img src="../../static/visitors/images/home-info.jpg" alt="" height="700px">
+        </div>
+    </div>
 </div>
 {% endblock %}

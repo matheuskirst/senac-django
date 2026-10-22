@@ -6,8 +6,34 @@ Visitantes
 
 {% block content %}
 <div>
-    <h1>Lista de visitantes</h1>
-    <p>Abaixo está a lista de visitantes do parque</p>
+    <div class="d-flex">
+        <div class="col">
+            <h1>Lista de visitantes</h1>
+            <p>Abaixo está a lista de visitantes do parque</p>
+        </div>
+        <div class="col">
+            <form action="./" method="get">
+                <div class="d-flex gap-3 align-items-end    ">
+                    <div class="col-md-5">
+                        <label for="search-input" class="form-label">Buscar por nome ou CPF</label>
+                        <input type="text" class="form-control" id="search-input" name="search-input">
+                    </div>
+
+                    <div class="col-md-3">
+                        <label for="ticket-type" class="form-label">Tipo de ingresso</label>
+                        <select name="" id="ticket-type" class="form-select ">
+                            <option value="" selected>Todos</option>
+                            <option value="1" {% if visitor.ticket_type == 1 %} selected {% endif %}>Normal</option>
+                            <option value="2" {% if visitor.ticket_type == 2 %} selected {% endif %}>VIP</option>
+                            <option value="3" {% if visitor.ticket_type == 3 %} selected {% endif %}>Premium</option>
+                        </select>
+                    </div>
+
+                    <input type="submit" value="Buscar" class="btn btn-primary btn-custom">
+                </div>
+            </form>
+        </div>
+    </div>
 
     <div class="table-responsive">
         <table class="table table-bordered table-striped table-hover">
@@ -51,16 +77,17 @@ Visitantes
             <h1 class="modal-title fs-5" id="exampleModalLabel">Remover visitante</h1>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
+
         <div class="modal-body">
             Tem certeza que deseja remover o visitante <strong id="visitor-name"></strong>?
         </div>
+        
         <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
             <form id="delete-form" method="post">
                 {% csrf_token %}
                 <button type="submit" class="btn btn-danger">Remover permanentemente</button>
             </form>
-        </div>
         </div>
     </div>
 </div>
