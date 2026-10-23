@@ -1,21 +1,34 @@
 from uuid import uuid4
 from datetime import datetime
+from django.db.models import Q
 from django.http import HttpRequest, HttpResponse
 from django.shortcuts import render, redirect
-from .models import Visitor
+from .models import Visitor, TicketType
 
 def home(request: HttpRequest) -> HttpResponse:
     return render(request, 'home/home.html')
 
 def visitors(request: HttpRequest) -> HttpResponse:
-    if request.method == 'POST':
-        ...
-        return redirect(to='visitors')
+    search = request.GET.get(key='search', default='').strip()
+    ticket_type = request.GET.get(key='ticket-type', default='')
 
     visitors = Visitor.objects.all()
 
+    visitors = visitors.filter(
+        Q(first_name__icontains=search)
+        | Q(last_name__icontains=search)
+        | Q(cpf__contains=search)
+    )
+
+    valid_types = (str(value) for value in TicketType.values)
+
+    if ticket_type in valid_types:
+        visitors = visitors.filter(ticket_type=int(ticket_type))
+
     response = {
-        'visitors': visitors
+        'visitors': visitors,
+        'search': search,
+        'ticket_type': ticket_type,
     }
 
     return render(request, 'visitors/visitors.html', response)

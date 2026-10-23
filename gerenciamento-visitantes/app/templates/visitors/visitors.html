@@ -12,20 +12,20 @@ Visitantes
             <p>Abaixo está a lista de visitantes do parque</p>
         </div>
         <div class="col">
-            <form action="./" method="get">
+            <form action="" method="get">
                 <div class="d-flex gap-3 align-items-end    ">
                     <div class="col-md-5">
-                        <label for="search-input" class="form-label">Buscar por nome ou CPF</label>
-                        <input type="text" class="form-control" id="search-input" name="search-input">
+                        <label for="search" class="form-label">Buscar por nome ou CPF</label>
+                        <input type="text" class="form-control" id="search" name="search" value="{{ search }}">
                     </div>
 
                     <div class="col-md-3">
                         <label for="ticket-type" class="form-label">Tipo de ingresso</label>
-                        <select name="" id="ticket-type" class="form-select ">
-                            <option value="" selected>Todos</option>
-                            <option value="1" {% if visitor.ticket_type == 1 %} selected {% endif %}>Normal</option>
-                            <option value="2" {% if visitor.ticket_type == 2 %} selected {% endif %}>VIP</option>
-                            <option value="3" {% if visitor.ticket_type == 3 %} selected {% endif %}>Premium</option>
+                        <select name="ticket-type" id="ticket-type" class="form-select ">
+                            <option value="all" selected>Todos</option>
+                            <option value="1" {% if ticket_type == '1' %} selected {% endif %}>Normal</option>
+                            <option value="2" {% if ticket_type == '2' %} selected {% endif %}>VIP</option>
+                            <option value="3" {% if ticket_type == '3' %} selected {% endif %}>Premium</option>
                         </select>
                     </div>
 
@@ -50,13 +50,13 @@ Visitantes
 
             <tbody class="table-group-divider">
                 {% for visitor in visitors %}
-                <tr>
+                <tr class="body-row">
                     <td>{{ visitor.first_name }} {{ visitor.last_name }}</td>
                     <td>{{ visitor.cpf }}</td>
                     <td>{{ visitor.birthdate|date:"d/m/Y" }}</td>
                     <td>{{ visitor.ticket_date|date:"d/m/Y" }}</td>
                     <td>{{ visitor.get_ticket_type_display }}</td>
-                    <td>
+                    <td class="actions-cell">
                         <a href="./update/{{ visitor.id }}/" class="btn btn-outline-primary">Editar</a>
                         <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#delete-modal" data-visitor-id="{{ visitor.id }}"  data-visitor-name="{{ visitor.first_name }} {{ visitor.last_name }}">Remover</button>
                     </td>

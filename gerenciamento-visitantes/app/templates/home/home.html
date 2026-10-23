@@ -1,11 +1,11 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block title %}
-Cadastrar Visitante
+Parque da Oktoberfest
 {% endblock %}
 
 {% block content %}
-<div>
     <div class="d-flex">
         <div class="col text-center">
             <h3>Página inicial - Gerenciamento de visitantes</h3>
@@ -20,8 +20,7 @@ Cadastrar Visitante
         </div>
     
         <div class="col d-flex justify-content-center">
-            <img src="../../static/visitors/images/home-info.jpg" alt="" height="700px">
+            <img src="{% static 'visitors/images/home-info.jpg' %}" alt="" height="700px">
         </div>
     </div>
-</div>
 {% endblock %}

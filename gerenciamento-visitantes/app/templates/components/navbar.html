@@ -1,6 +1,11 @@
-<nav class="navbar navbar-expand-lg bg-body-tertiary border-bottom">
+{% load static %}
+
+<nav class="navbar navbar-expand-lg bg-body-tertiary border-bottom border-2">
     <div class="container">
-        <a class="navbar-brand" href="{% url 'home' %}">PARQUE DA OKTOBERFEST</a>
+        <a class="navbar-brand" href="{% url 'home' %}">
+            <img src="{% static 'visitors/images/logo.jpg' %}" alt="Otkoberfest Logo" width="50px">
+            PARQUE DA OKTOBERFEST
+        </a>
 
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menu-principal"
         aria-controls="menu-principal" aria-expanded="false" aria-label="Alternar navegação">
