@@ -1,4 +1,4 @@
-# Projeto Crud de Gerenciamento de visitantes com Django
+# Projeto CRUD de Gerenciamento de visitantes com Django
 
 ## Primeiros passos
 
@@ -78,7 +78,7 @@ def home(request):
     return render(request, 'home.html')
 ```
 ---
-Configurar urls na aplicação e no projeto
+Configurar URLs na aplicação e no projeto
 - Na aplicação, criar arquivo `urls.py` configurar conforme abaixo:
 ```python
 from django.urls import path
@@ -148,7 +148,7 @@ py manage.py migrate
 ```
 ---
 ## Banco de dados
-- Instalar extensão para melhor vizualiação do banco criado
+- Instalar extensão para melhor visualização do banco criado
     - SQLite Viewer
-- Também é possível acessar o banco pelo Dbeaver.
-    - Dbeaver -> Nova conexão -> SQLite -> Seleciona o arquivo `db.sqlite3` do projeto.
+- Também é possível acessar o banco pelo DBeaver.
+    - DBeaver -> Nova conexão -> SQLite -> Seleciona o arquivo `db.sqlite3` do projeto.
