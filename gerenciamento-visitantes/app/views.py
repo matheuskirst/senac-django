@@ -1,9 +1,10 @@
 from uuid import uuid4
 from datetime import datetime
-from django.db.models import Q
+from django.db.models import Q, Count, Avg
 from django.http import HttpRequest, HttpResponse
 from django.shortcuts import render, redirect
 from .models import Visitor
+from .dtos import Statistics
 
 def home(request: HttpRequest) -> HttpResponse:
     return render(request, 'pages/home.html')
@@ -41,6 +42,7 @@ def create_visitor(request: HttpRequest) -> HttpResponse:
         visitor.last_name = request.POST['last_name']
         visitor.cpf = request.POST['cpf']
         visitor.birthdate = datetime.strptime(request.POST['birthdate'], '%Y-%m-%d')
+        visitor.age = datetime.today().year - datetime.strptime(request.POST['birthdate'], '%Y-%m-%d').year
         visitor.ticket_date = datetime.strptime(request.POST['ticket_date'], '%Y-%m-%d')
         visitor.ticket_type = request.POST['ticket_type']
         visitor.ticket_code = str(uuid4())
@@ -83,3 +85,15 @@ def delete_visitor(request: HttpRequest, id: int) -> HttpResponse:
         visitor.delete()
 
     return redirect(to='visitors')
+
+def statistics(request: HttpRequest) -> HttpResponse:
+    statistics = Visitor.objects.aggregate(
+        visitors_count=Count('id'),
+        average_age=Avg('age', default=0)
+    )
+
+    response = {
+        'stats': Statistics(**statistics)
+    }
+
+    return render(request, 'pages/statistics.html', response)

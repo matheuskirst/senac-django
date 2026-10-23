@@ -23,6 +23,9 @@
                 <li class="nav-item">
                     <a class="nav-link {% if request.path == '/visitors/' %} active {% endif %}" href="{% url 'visitors' %}">Visitantes</a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link {% if request.path == '/statistics/' %} active {% endif %}" href="{% url 'statistics' %}">Estatísticas</a>
+                </li>
             </ul>
         </div>
         {% include './theme-button.html' %}

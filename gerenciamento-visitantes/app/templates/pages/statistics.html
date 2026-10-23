@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+Estatísticas
+{% endblock %}
+
+{% block content %}
+<div>
+    <h1>Estatísticas do parque</h1>
+    <p>Abaixo estão as estatísticas de visitantes do parque</p>
+
+    <div>
+        <h4>Quantidade total de visitantes: {{ stats.visitors_count }}</h4>
+        <h4>Média de idade: {{ stats.average_age|floatformat:"0" }} anos</h4>
+    </div>
+</div>
+{% endblock %}
