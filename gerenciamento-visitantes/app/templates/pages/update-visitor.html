@@ -30,9 +30,9 @@ Atualizar Visitante
         <label for="ticket_type" class="form-label">Tipo de Ingresso</label>
         <select name="ticket_type" id="ticket_type" class="form-select">
             <option value="" selected disabled hidden>-- Selecione --</option>
-            <option value="1" {% if visitor.ticket_type == 1 %} selected {% endif %}>Normal</option>
-            <option value="2" {% if visitor.ticket_type == 2 %} selected {% endif %}>VIP</option>
-            <option value="3" {% if visitor.ticket_type == 3 %} selected {% endif %}>Premium</option>
+            {% for value, label in TicketType.choices %}
+            <option value="{{ value }}" {% if visitor.ticket_type == value %} selected {% endif %}>{{ label }}</option>
+            {% endfor %}
         </select>
         {% endif %}
 

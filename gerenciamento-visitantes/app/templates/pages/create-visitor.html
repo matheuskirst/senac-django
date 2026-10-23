@@ -29,9 +29,9 @@ Cadastrar Visitante
         <label for="ticket_type" class="form-label">Tipo de Ingresso</label>
         <select name="ticket_type" id="ticket_type" class="form-select">
             <option value="" selected disabled hidden>-- Selecione --</option>
-            <option value="1">Normal</option>
-            <option value="2">VIP</option>
-            <option value="3">Premium</option>
+            {% for value, label in TicketType.choices %}
+            <option value="{{ value }}">{{ label }}</option>
+            {% endfor %}
         </select>
 
         <input type="submit" value="Salvar" class="btn btn-success mt-3 btn-custom">

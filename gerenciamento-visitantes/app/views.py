@@ -6,14 +6,13 @@ from django.shortcuts import render, redirect
 from .models import Visitor
 
 def home(request: HttpRequest) -> HttpResponse:
-    return render(request, 'home/home.html')
+    return render(request, 'pages/home.html')
 
 def visitors(request: HttpRequest) -> HttpResponse:
     search = request.GET.get(key='search', default='').strip()
     ticket_type = request.GET.get(key='ticket-type', default='')
 
     visitors = Visitor.objects.all()
-    valid_ticket_types = Visitor.TicketType.labels
 
     visitors = visitors.filter(
         Q(first_name__icontains=search)
@@ -30,10 +29,10 @@ def visitors(request: HttpRequest) -> HttpResponse:
         'visitors': visitors,
         'search': search,
         'ticket_type': ticket_type,
-        'valid_ticket_types': valid_ticket_types
+        'TicketType': Visitor.TicketType
     }
 
-    return render(request, 'visitors/visitors.html', response)
+    return render(request, 'pages/visitors.html', response)
 
 def create_visitor(request: HttpRequest) -> HttpResponse:
     if request.method == 'POST':
@@ -50,7 +49,11 @@ def create_visitor(request: HttpRequest) -> HttpResponse:
 
         return redirect(to='visitors')
 
-    return render(request, 'visitors/create-visitor.html')
+    response = {
+        'TicketType': Visitor.TicketType
+    }
+
+    return render(request, 'pages/create-visitor.html', response)
 
 def update_visitor(request: HttpRequest, id: int) -> HttpResponse:
     if request.method == 'POST':
@@ -68,10 +71,11 @@ def update_visitor(request: HttpRequest, id: int) -> HttpResponse:
     visitor = Visitor.objects.get(pk=id)
 
     response = {
-        'visitor': visitor
+        'visitor': visitor,
+        'TicketType': Visitor.TicketType
     }
 
-    return render(request, 'visitors/update-visitor.html', response)
+    return render(request, 'pages/update-visitor.html', response)
 
 def delete_visitor(request: HttpRequest, id: int) -> HttpResponse:
     if request.method == 'POST':
