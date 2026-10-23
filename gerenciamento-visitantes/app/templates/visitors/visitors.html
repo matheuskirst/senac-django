@@ -23,9 +23,9 @@ Visitantes
                         <label for="ticket-type" class="form-label">Tipo de ingresso</label>
                         <select name="ticket-type" id="ticket-type" class="form-select ">
                             <option value="all" selected>Todos</option>
-                            <option value="normal" {% if ticket_type == 'normal' %} selected {% endif %}>Normal</option>
-                            <option value="vip" {% if ticket_type == 'vip' %} selected {% endif %}>VIP</option>
-                            <option value="premium" {% if ticket_type == 'premium' %} selected {% endif %}>Premium</option>
+                            {% for valid_ticket_type in valid_ticket_types %}
+                            <option value="{{ valid_ticket_type.lower }}" {% if ticket_type == valid_ticket_type.lower %} selected {% endif %}>{{ valid_ticket_type }}</option>
+                            {% endfor %}
                         </select>
                     </div>
 

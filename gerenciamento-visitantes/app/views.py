@@ -13,6 +13,7 @@ def visitors(request: HttpRequest) -> HttpResponse:
     ticket_type = request.GET.get(key='ticket-type', default='')
 
     visitors = Visitor.objects.all()
+    valid_ticket_types = Visitor.TicketType.labels
 
     visitors = visitors.filter(
         Q(first_name__icontains=search)
@@ -29,6 +30,7 @@ def visitors(request: HttpRequest) -> HttpResponse:
         'visitors': visitors,
         'search': search,
         'ticket_type': ticket_type,
+        'valid_ticket_types': valid_ticket_types
     }
 
     return render(request, 'visitors/visitors.html', response)
