@@ -3,7 +3,7 @@ from datetime import datetime
 from django.db.models import Q
 from django.http import HttpRequest, HttpResponse
 from django.shortcuts import render, redirect
-from .models import Visitor, TicketType
+from .models import Visitor
 
 def home(request: HttpRequest) -> HttpResponse:
     return render(request, 'home/home.html')
@@ -20,10 +20,10 @@ def visitors(request: HttpRequest) -> HttpResponse:
         | Q(cpf__contains=search)
     )
 
-    valid_types = (str(value) for value in TicketType.values)
+    valid_type = getattr(Visitor.TicketType, ticket_type.upper(), None)
 
-    if ticket_type in valid_types:
-        visitors = visitors.filter(ticket_type=int(ticket_type))
+    if valid_type:
+        visitors = visitors.filter(ticket_type=valid_type)
 
     response = {
         'visitors': visitors,
