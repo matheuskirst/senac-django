@@ -1,6 +1,7 @@
 from uuid import uuid4
 from datetime import datetime
 from django.db.models import Q, Count, Avg
+from django.db.models.functions import ExtractYear
 from django.http import HttpRequest, HttpResponse
 from django.shortcuts import render, redirect
 from .models import Visitor
@@ -42,7 +43,6 @@ def create_visitor(request: HttpRequest) -> HttpResponse:
         visitor.last_name = request.POST['last_name']
         visitor.cpf = request.POST['cpf']
         visitor.birthdate = datetime.strptime(request.POST['birthdate'], '%Y-%m-%d')
-        visitor.age = datetime.today().year - datetime.strptime(request.POST['birthdate'], '%Y-%m-%d').year
         visitor.ticket_date = datetime.strptime(request.POST['ticket_date'], '%Y-%m-%d')
         visitor.ticket_type = request.POST['ticket_type']
         visitor.ticket_code = str(uuid4())
@@ -83,14 +83,18 @@ def delete_visitor(request: HttpRequest, id: int) -> HttpResponse:
     if request.method == 'POST':
         visitor = Visitor.objects.get(pk=id)
         visitor.delete()
-
-    return redirect(to='visitors')
+        return redirect(to='visitors')
 
 def statistics(request: HttpRequest) -> HttpResponse:
     statistics = Visitor.objects.aggregate(
         visitors_count=Count('id'),
-        average_age=Avg('age', default=0)
+        ticket_normal_count=Count('id', filter=Q(ticket_type=Visitor.TicketType.NORMAL)),
+        ticket_vip_count=Count('id', filter=Q(ticket_type=Visitor.TicketType.VIP)),
+        ticket_premium_count=Count('id', filter=Q(ticket_type=Visitor.TicketType.PREMIUM)),
+        average_age=Avg(datetime.today().year - ExtractYear('birthdate'))
     )
+
+    # average age solution: https://forum.djangoproject.com/t/average-age-from-birth-date/2454/4
 
     response = {
         'stats': Statistics(**statistics)

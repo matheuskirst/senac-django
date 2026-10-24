@@ -10,9 +10,42 @@ Estatísticas
     <h1>Estatísticas do parque</h1>
     <p>Abaixo estão as estatísticas de visitantes do parque</p>
 
-    <div>
-        <h4>Quantidade total de visitantes: {{ stats.visitors_count }}</h4>
-        <h4>Média de idade: {{ stats.average_age|floatformat:"0" }} anos</h4>
+    <div class="d-flex gap-3">
+        <div class="card card-custom p-2">
+            <div class="d-flex justify-content-between">
+                <h5>Visitantes</h5>
+            </div>
+            <h2>{{ stats.visitors_count }}</h2>
+        </div>
+
+        <div class="card card-custom p-2">
+            <div class="d-flex justify-content-between">
+                <h5>Tickets Normal</h5>
+            </div>
+            <h2>{{ stats.ticket_normal_count }}</h2>
+        </div>
+
+        <div class="card card-custom p-2">
+            <div class="d-flex justify-content-between">
+                <h5>Tickets VIP</h5>
+            </div>
+            <h2>{{ stats.ticket_vip_count }}</h2>
+        </div>
+
+        <div class="card card-custom p-2">
+            <div class="d-flex justify-content-between">
+                <h5>Tickets Premium</h5>
+            </div>
+            <h2>{{ stats.ticket_premium_count }}</h2>
+        </div>
+
+        <div class="card card-custom p-2">
+            <div class="d-flex justify-content-between">
+                <h5>Média de idade</h5>
+            </div>
+            <h2>{{ stats.average_age|floatformat:"0" }}</h2>
+        </div>
+
     </div>
 </div>
 {% endblock %}

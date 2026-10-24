@@ -9,7 +9,6 @@ class Visitor(models.Model):
     last_name = models.CharField(max_length=255)
     cpf = models.CharField(max_length=11)
     birthdate = models.DateField()
-    age = models.IntegerField(default=None)
     ticket_date = models.DateField()
     ticket_type = models.IntegerField(choices=TicketType.choices)
     ticket_code = models.CharField(max_length=255)

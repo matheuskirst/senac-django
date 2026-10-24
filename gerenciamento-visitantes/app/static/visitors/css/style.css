@@ -7,3 +7,8 @@
     background: none;
     border: none;
 }
+
+.card-custom {
+    width: 400px;
+    height: 200px;
+}

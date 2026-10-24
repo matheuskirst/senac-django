@@ -17,12 +17,15 @@
                 <li class="nav-item">
                     <a class="nav-link {% if request.path == '/' %} active {% endif %}" href="{% url 'home' %}">Início</a>
                 </li>
+                
                 <li class="nav-item">
                     <a class="nav-link {% if request.path == '/visitors/create/' %} active {% endif %}" href="{% url 'create-visitor' %}">Cadastrar visitante</a>
                 </li>
+
                 <li class="nav-item">
                     <a class="nav-link {% if request.path == '/visitors/' %} active {% endif %}" href="{% url 'visitors' %}">Visitantes</a>
                 </li>
+
                 <li class="nav-item">
                     <a class="nav-link {% if request.path == '/statistics/' %} active {% endif %}" href="{% url 'statistics' %}">Estatísticas</a>
                 </li>
