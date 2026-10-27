@@ -27,14 +27,14 @@ def visitors(request: HttpRequest) -> HttpResponse:
     if valid_type:
         visitors = visitors.filter(ticket_type=valid_type)
 
-    response = {
+    context = {
         'visitors': visitors,
         'search': search,
         'ticket_type': ticket_type,
         'TicketType': Visitor.TicketType
     }
 
-    return render(request, 'pages/visitors.html', response)
+    return render(request, 'pages/visitors.html', context)
 
 def create_visitor(request: HttpRequest) -> HttpResponse | HttpResponseBadRequest:
     if request.method == 'POST':
@@ -52,11 +52,11 @@ def create_visitor(request: HttpRequest) -> HttpResponse | HttpResponseBadReques
 
         return redirect(to='visitors')
 
-    response = {
+    context = {
         'TicketType': Visitor.TicketType
     }
 
-    return render(request, 'pages/create-visitor.html', response)
+    return render(request, 'pages/create-visitor.html', context)
 
 def update_visitor(request: HttpRequest, id: int) -> HttpResponse | HttpResponseBadRequest:
     if request.method == 'POST':
@@ -73,12 +73,12 @@ def update_visitor(request: HttpRequest, id: int) -> HttpResponse | HttpResponse
 
     visitor = Visitor.objects.get(pk=id)
 
-    response = {
+    context = {
         'visitor': visitor,
         'TicketType': Visitor.TicketType
     }
 
-    return render(request, 'pages/update-visitor.html', response)
+    return render(request, 'pages/update-visitor.html', context)
 
 def delete_visitor(request: HttpRequest, id: int) -> HttpResponse:
     if request.method == 'POST':
@@ -97,8 +97,8 @@ def statistics(request: HttpRequest) -> HttpResponse:
 
     # average age solution: https://forum.djangoproject.com/t/average-age-from-birth-date/2454/4
 
-    response = {
+    context = {
         'stats': Statistics(**statistics)
     }
 
-    return render(request, 'pages/statistics.html', response)
+    return render(request, 'pages/statistics.html', context)
