@@ -2,7 +2,7 @@ from uuid import uuid4
 from datetime import datetime
 from django.db.models import Q, Count, Avg
 from django.db.models.functions import ExtractYear
-from django.http import HttpRequest, HttpResponse
+from django.http import HttpRequest, HttpResponse, HttpResponseBadRequest
 from django.shortcuts import render, redirect
 from .models import Visitor
 from .dtos import Statistics
@@ -36,8 +36,9 @@ def visitors(request: HttpRequest) -> HttpResponse:
 
     return render(request, 'pages/visitors.html', response)
 
-def create_visitor(request: HttpRequest) -> HttpResponse:
+def create_visitor(request: HttpRequest) -> HttpResponse | HttpResponseBadRequest:
     if request.method == 'POST':
+
         visitor = Visitor()
         visitor.first_name = request.POST['first_name']
         visitor.last_name = request.POST['last_name']
@@ -46,7 +47,7 @@ def create_visitor(request: HttpRequest) -> HttpResponse:
         visitor.ticket_date = datetime.strptime(request.POST['ticket_date'], '%Y-%m-%d')
         visitor.ticket_type = request.POST['ticket_type']
         visitor.ticket_code = str(uuid4())
-
+        visitor.full_clean()
         visitor.save()
 
         return redirect(to='visitors')
@@ -57,7 +58,7 @@ def create_visitor(request: HttpRequest) -> HttpResponse:
 
     return render(request, 'pages/create-visitor.html', response)
 
-def update_visitor(request: HttpRequest, id: int) -> HttpResponse:
+def update_visitor(request: HttpRequest, id: int) -> HttpResponse | HttpResponseBadRequest:
     if request.method == 'POST':
         visitor = Visitor.objects.get(pk=id)
         visitor.first_name = request.POST['first_name']
