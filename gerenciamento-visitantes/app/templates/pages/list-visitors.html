@@ -15,8 +15,8 @@ Visitantes
             <form action="" method="get">
                 <div class="d-flex gap-3 align-items-end    ">
                     <div class="col-md-5">
-                        <label for="search" class="form-label">Buscar por nome ou CPF</label>
-                        <input type="text" class="form-control" id="search" name="search" value="{{ search }}">
+                        <label for="search_name_or_cpf" class="form-label">Buscar por nome ou CPF</label>
+                        <input type="text" class="form-control" id="search_name_or_cpf" name="search_name_or_cpf" value="{{ search_name_or_cpf }}">
                     </div>
 
                     <div class="col-md-3">
@@ -27,6 +27,11 @@ Visitantes
                             <option value="{{ label.lower }}" {% if ticket_type == label.lower %} selected {% endif %}>{{ label }}</option>
                             {% endfor %}
                         </select>
+                    </div>
+
+                    <div class="col-md-3">
+                        <label for="ticket_date">Data do ingresso</label>
+                        <input type="date" name="ticket_date" class="form-control" id="ticket_date" value="{{ ticket_date }}">
                     </div>
 
                     <input type="submit" value="Buscar" class="btn btn-primary btn-custom">

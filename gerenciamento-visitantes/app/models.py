@@ -7,6 +7,7 @@ class Visitor(models.Model):
         NORMAL = 1, 'Normal'
         VIP = 2, 'VIP'
         PREMIUM = 3, 'Premium'
+
     first_name = models.CharField(max_length=255)
     last_name = models.CharField(max_length=255)
     cpf = models.CharField(max_length=11, unique=True)

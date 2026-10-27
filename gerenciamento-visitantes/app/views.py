@@ -10,31 +10,40 @@ from .dtos import Statistics
 def home(request: HttpRequest) -> HttpResponse:
     return render(request, 'pages/home.html')
 
-def visitors(request: HttpRequest) -> HttpResponse:
-    search = request.GET.get(key='search', default='').strip()
-    ticket_type = request.GET.get(key='ticket-type', default='')
+def list_visitors(request: HttpRequest) -> HttpResponse:
+    search_name_or_cpf = request.GET.get(key='search_name_or_cpf', default='').strip()
+    search_ticket_type = request.GET.get(key='ticket-type', default='')
+    search_ticket_date = request.GET.get(key='ticket_date', default='')
 
     visitors = Visitor.objects.all()
 
     visitors = visitors.filter(
-        Q(first_name__icontains=search)
-        | Q(last_name__icontains=search)
-        | Q(cpf__contains=search)
+        Q(first_name__icontains=search_name_or_cpf)
+        | Q(last_name__icontains=search_name_or_cpf)
+        | Q(cpf__contains=search_name_or_cpf)
     )
 
-    valid_type = getattr(Visitor.TicketType, ticket_type.upper(), None)
+    valid_type = getattr(Visitor.TicketType, search_ticket_type.upper(), None)
 
     if valid_type:
         visitors = visitors.filter(ticket_type=valid_type)
 
+    if search_ticket_date:
+        try:
+            ticket_date = datetime.strptime(search_ticket_date, '%Y-%m-%d')
+        except:
+            ticket_date = ''
+        visitors = visitors.filter(ticket_date=ticket_date)
+
     context = {
         'visitors': visitors,
-        'search': search,
-        'ticket_type': ticket_type,
-        'TicketType': Visitor.TicketType
+        'search_name_or_cpf': search_name_or_cpf,
+        'ticket_type': search_ticket_type,
+        'TicketType': Visitor.TicketType,
+        'ticket_date': search_ticket_date,
     }
 
-    return render(request, 'pages/visitors.html', context)
+    return render(request, 'pages/list-visitors.html', context)
 
 def create_visitor(request: HttpRequest) -> HttpResponse | HttpResponseBadRequest:
     if request.method == 'POST':
