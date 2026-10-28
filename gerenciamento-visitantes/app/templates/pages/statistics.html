@@ -10,40 +10,50 @@ Estatísticas
     <h1>Estatísticas do parque</h1>
     <p>Abaixo estão as estatísticas de visitantes do parque</p>
 
-    <div class="d-flex gap-3">
-        <div class="card card-custom p-2">
-            <div class="d-flex justify-content-between">
-                <h5>Visitantes</h5>
+    <div class="d-flex flex-column gap-3">
+
+        <div class="d-flex flex-row gap-3">
+            <div class="card card-custom p-2">
+                <div class="d-flex justify-content-between">
+                    <h5>Visitantes</h5>
+                </div>
+                <h2>{{ stats.visitors_count }}</h2>
             </div>
-            <h2>{{ stats.visitors_count }}</h2>
+
+            <div class="card card-custom p-2">
+                <div class="d-flex justify-content-between">
+                    <h5>Média de idade</h5>
+                </div>
+                <h2>{{ stats.average_age|floatformat:"0" }}</h2>
+            </div>
         </div>
 
         <div class="card card-custom p-2">
-            <div class="d-flex justify-content-between">
-                <h5>Tickets Normal</h5>
+            <div class="btn d-flex justify-content-between"  data-bs-toggle="collapse" href="#collapseTickets" role="button" aria-expanded="false" aria-controls="collapseTickets">
+                <h5>Tickets</h5>
             </div>
-            <h2>{{ stats.ticket_normal_count }}</h2>
-        </div>
+                <div class="collapse" id="collapseTickets">
+                    <div class="card p-2">
+                        <div class="d-flex justify-content-between">
+                            <h5>Normal</h5>
+                        </div>
+                        <h2>{{ stats.ticket_normal_count }}</h2>
+                    </div>
+            
+                    <div class="card p-2">
+                        <div class="d-flex justify-content-between">
+                            <h5>VIP</h5>
+                        </div>
+                        <h2>{{ stats.ticket_vip_count }}</h2>
+                    </div>
 
-        <div class="card card-custom p-2">
-            <div class="d-flex justify-content-between">
-                <h5>Tickets VIP</h5>
-            </div>
-            <h2>{{ stats.ticket_vip_count }}</h2>
-        </div>
-
-        <div class="card card-custom p-2">
-            <div class="d-flex justify-content-between">
-                <h5>Tickets Premium</h5>
-            </div>
-            <h2>{{ stats.ticket_premium_count }}</h2>
-        </div>
-
-        <div class="card card-custom p-2">
-            <div class="d-flex justify-content-between">
-                <h5>Média de idade</h5>
-            </div>
-            <h2>{{ stats.average_age|floatformat:"0" }}</h2>
+                    <div class="card p-2">
+                        <div class="d-flex justify-content-between">
+                            <h5>Premium</h5>
+                        </div>
+                        <h2>{{ stats.ticket_premium_count }}</h2>
+                    </div>
+                </div>
         </div>
 
     </div>
