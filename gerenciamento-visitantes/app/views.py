@@ -5,6 +5,7 @@ from django.db.models.functions import ExtractYear
 from django.http import HttpRequest, HttpResponse, HttpResponseBadRequest
 from django.shortcuts import render, redirect
 from .models import Visitor
+from .enums import TicketType
 from .dtos import Statistics
 
 def home(request: HttpRequest) -> HttpResponse:
@@ -23,7 +24,7 @@ def list_visitors(request: HttpRequest) -> HttpResponse:
         | Q(cpf__contains=search_name_or_cpf)
     )
 
-    valid_type = getattr(Visitor.TicketType, search_ticket_type.upper(), None)
+    valid_type = getattr(TicketType, search_ticket_type.upper(), None)
 
     if valid_type:
         visitors = visitors.filter(ticket_type=valid_type)
@@ -39,7 +40,7 @@ def list_visitors(request: HttpRequest) -> HttpResponse:
         'visitors': visitors,
         'search_name_or_cpf': search_name_or_cpf,
         'ticket_type': search_ticket_type,
-        'TicketType': Visitor.TicketType,
+        'TicketType': TicketType,
         'ticket_date': search_ticket_date,
     }
 
@@ -61,7 +62,7 @@ def create_visitor(request: HttpRequest) -> HttpResponse | HttpResponseBadReques
         return redirect(to='visitors')
 
     context = {
-        'TicketType': Visitor.TicketType
+        'TicketType': TicketType
     }
 
     return render(request, 'pages/create-visitor.html', context)
@@ -83,7 +84,7 @@ def update_visitor(request: HttpRequest, id: int) -> HttpResponse | HttpResponse
 
     context = {
         'visitor': visitor,
-        'TicketType': Visitor.TicketType
+        'TicketType': TicketType
     }
 
     return render(request, 'pages/update-visitor.html', context)
@@ -97,9 +98,9 @@ def delete_visitor(request: HttpRequest, id: int) -> HttpResponse:
 def statistics(request: HttpRequest) -> HttpResponse:
     statistics = Visitor.objects.aggregate(
         visitors_count=Count('id'),
-        ticket_normal_count=Count('id', filter=Q(ticket_type=Visitor.TicketType.NORMAL)),
-        ticket_vip_count=Count('id', filter=Q(ticket_type=Visitor.TicketType.VIP)),
-        ticket_premium_count=Count('id', filter=Q(ticket_type=Visitor.TicketType.PREMIUM)),
+        ticket_normal_count=Count('id', filter=Q(ticket_type=TicketType.NORMAL)),
+        ticket_vip_count=Count('id', filter=Q(ticket_type=TicketType.VIP)),
+        ticket_premium_count=Count('id', filter=Q(ticket_type=TicketType.PREMIUM)),
         average_age=Avg(datetime.today().year - ExtractYear('birthdate'))
     )
 
