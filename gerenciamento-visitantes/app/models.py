@@ -10,7 +10,7 @@ class Visitor(models.Model):
 
     first_name = models.CharField(max_length=255)
     last_name = models.CharField(max_length=255)
-    cpf = models.CharField(max_length=11, unique=True)
+    cpf = models.CharField(max_length=11, unique=True, error_messages={'unique': 'Este CPF já está cadastrado.'})
     birthdate = models.DateField(validators=[validate_birthdate])
     ticket_date = models.DateField()
     ticket_type = models.IntegerField(choices=TicketType.choices)

@@ -47,7 +47,6 @@ def list_visitors(request: HttpRequest) -> HttpResponse:
 
 def create_visitor(request: HttpRequest) -> HttpResponse | HttpResponseBadRequest:
     if request.method == 'POST':
-
         visitor = Visitor()
         visitor.first_name = request.POST['first_name']
         visitor.last_name = request.POST['last_name']

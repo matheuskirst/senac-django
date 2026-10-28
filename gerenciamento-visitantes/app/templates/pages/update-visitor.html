@@ -13,22 +13,22 @@ Atualizar Visitante
         {% csrf_token %}
         {% if visitor %}
         <label for="first_name" class="form-label">Nome</label>
-        <input type="text" class="form-control" id="first_name" name="first_name" value="{{ visitor.first_name }}">
+        <input type="text" class="form-control" id="first_name" name="first_name" value="{{ visitor.first_name }}" required>
 
         <label for="last_name" class="form-label">Sobrenome</label>
-        <input type="text" class="form-control" id="last_name" name="last_name" value="{{ visitor.last_name }}">
+        <input type="text" class="form-control" id="last_name" name="last_name" value="{{ visitor.last_name }}" required>
 
         <label for="cpf" class="form-label">CPF</label>
-        <input type="text" class="form-control" id="cpf" name="cpf" placeholder="___.___.___-__" value="{{ visitor.cpf }}">
+        <input type="text" class="form-control" id="cpf" name="cpf" placeholder="___.___.___-__" value="{{ visitor.cpf }}" required>
 
         <label for="birthdate" class="form-label">Data de Nascimento</label>
-        <input type="date" class="form-control" id="birthdate" name="birthdate" value="{{ visitor.birthdate|date:'Y-m-d' }}">
+        <input type="date" class="form-control" id="birthdate" name="birthdate" value="{{ visitor.birthdate|date:'Y-m-d' }}" required>
 
         <label for="ticket_date" class="form-label">Data do Ingresso</label>
-        <input type="date" class="form-control" id="ticket_date" name="ticket_date" value="{{ visitor.ticket_date|date:'Y-m-d' }}">
+        <input type="date" class="form-control" id="ticket_date" name="ticket_date" value="{{ visitor.ticket_date|date:'Y-m-d' }}" required>
 
         <label for="ticket_type" class="form-label">Tipo de Ingresso</label>
-        <select name="ticket_type" id="ticket_type" class="form-select">
+        <select name="ticket_type" id="ticket_type" class="form-select" required>
             <option value="" selected disabled hidden>-- Selecione --</option>
             {% for value, label in TicketType.choices %}
             <option value="{{ value }}" {% if visitor.ticket_type == value %} selected {% endif %}>{{ label }}</option>
