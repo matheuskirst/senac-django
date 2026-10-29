@@ -6,6 +6,14 @@ def validate_birthdate(birthdate: date):
     today = date.today()
     if birthdate > today:
         raise ValidationError(
-            _("%(birthdate)s is not valid"),
+            _("Data de nascimento inválida"),
             params={'birthdate': birthdate}
+        )
+
+def validate_ticket_date(ticket_date: date):
+    today = date.today()
+    if ticket_date < today:
+        raise ValidationError(
+            _("A data da visita não pode ser antes da data atual"),
+            params={'ticket_date': ticket_date}
         )

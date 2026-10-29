@@ -1,11 +1,14 @@
 from uuid import uuid4
 from datetime import datetime
+
 from django.db.models import Q, Count, Avg
 from django.db.models.functions import ExtractYear
 from django.http import HttpRequest, HttpResponse, HttpResponseBadRequest
 from django.shortcuts import render, redirect
+
 from .models import Visitor
 from .enums import TicketType
+from .forms import VisitorForm
 from .dtos import Statistics
 
 def home(request: HttpRequest) -> HttpResponse:
@@ -46,28 +49,34 @@ def list_visitors(request: HttpRequest) -> HttpResponse:
 
     return render(request, 'pages/list-visitors.html', context)
 
-def create_visitor(request: HttpRequest) -> HttpResponse | HttpResponseBadRequest:
-    if request.method == 'POST':
-        visitor = Visitor()
-        visitor.first_name = request.POST['first_name']
-        visitor.last_name = request.POST['last_name']
-        visitor.cpf = request.POST['cpf']
-        visitor.birthdate = datetime.strptime(request.POST['birthdate'], '%Y-%m-%d')
-        visitor.ticket_date = datetime.strptime(request.POST['ticket_date'], '%Y-%m-%d')
-        visitor.ticket_type = request.POST['ticket_type']
-        visitor.ticket_code = str(uuid4())
-        visitor.full_clean()
-        visitor.save()
+def create_visitor(request: HttpRequest) -> HttpResponse:
+    template_name = 'pages/create-visitor.html'
 
-        return redirect(to='visitors')
+    if request.method == 'POST':
+        form = VisitorForm(request.POST)
+
+        if form.is_valid():
+            new_visitor: Visitor = form.save(commit=False)
+            new_visitor.ticket_code = str(uuid4())
+            new_visitor.save()
+
+            return redirect(to='visitors')
+
+        context = {
+            'TicketType': TicketType,
+            'form_errors': form.errors.as_data(),
+            'request': request.POST
+        }
+
+        return render(request, template_name, context)
 
     context = {
         'TicketType': TicketType
     }
 
-    return render(request, 'pages/create-visitor.html', context)
+    return render(request, template_name, context)
 
-def update_visitor(request: HttpRequest, id: int) -> HttpResponse | HttpResponseBadRequest:
+def update_visitor(request: HttpRequest, id: int) -> HttpResponse:
     if request.method == 'POST':
         visitor = Visitor.objects.get(pk=id)
         visitor.first_name = request.POST['first_name']

@@ -1,14 +1,14 @@
 from django.db import models
 from .enums import TicketType
-from .validators import validate_birthdate
+from .validators import validate_birthdate, validate_ticket_date
 
 
 class Visitor(models.Model):
     first_name = models.CharField(max_length=255)
     last_name = models.CharField(max_length=255)
-    cpf = models.CharField(max_length=11, unique=True, error_messages={'unique': 'Este CPF já está cadastrado.'})
+    cpf = models.CharField(max_length=11, unique=True, error_messages={'unique': 'Este CPF já está cadastrado'})
     birthdate = models.DateField(validators=[validate_birthdate])
-    ticket_date = models.DateField()
+    ticket_date = models.DateField(validators=[validate_ticket_date])
     ticket_type = models.IntegerField(choices=TicketType.choices)
     ticket_code = models.CharField(max_length=255)
 
