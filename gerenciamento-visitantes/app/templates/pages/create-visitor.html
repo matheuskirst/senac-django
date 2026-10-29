@@ -11,6 +11,7 @@ Cadastrar Visitante
     
     <form action="./" method="post" class="gap-3">
         {% csrf_token %}
+
         <label for="first_name" class="form-label">Nome</label>
         <input type="text"
         class="form-control"
@@ -58,7 +59,7 @@ Cadastrar Visitante
 
         <label for="birthdate" class="form-label">Data de Nascimento</label>
         <input type="date"
-        class="form-control {% if form_errors.birthdate%} border-danger {% endif %}"
+        class="form-control {% if form_errors.birthdate %} border-danger {% endif %}"
         id="birthdate"
         name="birthdate"
         required

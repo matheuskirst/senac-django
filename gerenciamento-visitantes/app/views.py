@@ -3,7 +3,7 @@ from datetime import datetime
 
 from django.db.models import Q, Count, Avg
 from django.db.models.functions import ExtractYear
-from django.http import HttpRequest, HttpResponse, HttpResponseBadRequest
+from django.http import HttpRequest, HttpResponse, HttpResponseNotFound
 from django.shortcuts import render, redirect
 
 from .models import Visitor
@@ -52,6 +52,12 @@ def list_visitors(request: HttpRequest) -> HttpResponse:
 def create_visitor(request: HttpRequest) -> HttpResponse:
     template_name = 'pages/create-visitor.html'
 
+    if request.method == 'GET':
+        context = {
+            'TicketType': TicketType
+        }
+        return render(request, template_name, context)
+
     if request.method == 'POST':
         form = VisitorForm(request.POST)
 
@@ -60,7 +66,7 @@ def create_visitor(request: HttpRequest) -> HttpResponse:
             new_visitor.ticket_code = str(uuid4())
             new_visitor.save()
 
-            return redirect(to='visitors')
+            return redirect(to='list-visitors')
 
         context = {
             'TicketType': TicketType,
@@ -70,33 +76,22 @@ def create_visitor(request: HttpRequest) -> HttpResponse:
 
         return render(request, template_name, context)
 
-    context = {
-        'TicketType': TicketType
-    }
-
-    return render(request, template_name, context)
-
 def update_visitor(request: HttpRequest, id: int) -> HttpResponse:
+    if request.method == 'GET':
+        visitor = Visitor.objects.get(pk=id)
+        context = {
+            'visitor': visitor,
+            'TicketType': TicketType
+        }
+        return render(request, 'pages/update-visitor.html', context)
+    
     if request.method == 'POST':
         visitor = Visitor.objects.get(pk=id)
-        visitor.first_name = request.POST['first_name']
-        visitor.last_name = request.POST['last_name']
-        visitor.cpf = request.POST['cpf']
-        visitor.birthdate = datetime.strptime(request.POST['birthdate'], '%Y-%m-%d')
-        visitor.ticket_date = datetime.strptime(request.POST['ticket_date'], '%Y-%m-%d')
-        visitor.ticket_type = request.POST['ticket_type']
+        form = VisitorForm(request.POST, instance=visitor)
 
-        visitor.save()
-        return redirect('visitors')
-
-    visitor = Visitor.objects.get(pk=id)
-
-    context = {
-        'visitor': visitor,
-        'TicketType': TicketType
-    }
-
-    return render(request, 'pages/update-visitor.html', context)
+        if form.is_valid():
+            form.save()
+            return redirect('visitors')
 
 def delete_visitor(request: HttpRequest, id: int) -> HttpResponse:
     if request.method == 'POST':
@@ -120,3 +115,4 @@ def statistics(request: HttpRequest) -> HttpResponse:
     }
 
     return render(request, 'pages/statistics.html', context)
+1
