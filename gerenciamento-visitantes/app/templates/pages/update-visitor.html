@@ -38,14 +38,14 @@ Atualizar Visitante
         {% endfor %}
 
         <label for="cpf" class="form-label">CPF</label>
-        <input type="text"
+        <input type="number_format"
         class="form-control {% if form_errors.cpf %} border-danger {% endif %}"
         id="cpf"
         name="cpf"
         required
         minlength="11"
         maxlength="11"
-        placeholder="___.___.___-__"
+        pattern="\d{3}\.\d{3}\.\d{3}-\d{2}"
         value="{{ visitor.cpf }}"
         >
         {% for error in form_errors.cpf %}

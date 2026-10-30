@@ -69,21 +69,22 @@ def create_visitor(request: HttpRequest) -> HttpResponse:
             return redirect(to='list-visitors')
 
         context = {
-            'TicketType': TicketType,
+            'request': request.POST,
             'form_errors': form.errors.as_data(),
-            'request': request.POST
+            'TicketType': TicketType,
         }
 
         return render(request, template_name, context)
 
 def update_visitor(request: HttpRequest, id: int) -> HttpResponse:
+    template_name = 'pages/update-visitor.html'
     if request.method == 'GET':
         visitor = Visitor.objects.get(pk=id)
         context = {
             'visitor': visitor,
             'TicketType': TicketType
         }
-        return render(request, 'pages/update-visitor.html', context)
+        return render(request, template_name, context)
     
     if request.method == 'POST':
         visitor = Visitor.objects.get(pk=id)
@@ -91,7 +92,16 @@ def update_visitor(request: HttpRequest, id: int) -> HttpResponse:
 
         if form.is_valid():
             form.save()
-            return redirect('visitors')
+            return redirect('list-visitors')
+
+        context = {
+            'visitor': visitor,
+            'request': request.POST,
+            'form_errors': form.errors.as_data(),
+            'TicketType': TicketType,
+        }
+
+        return render(request, template_name, context)
 
 def delete_visitor(request: HttpRequest, id: int) -> HttpResponse:
     if request.method == 'POST':
