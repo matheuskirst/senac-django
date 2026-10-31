@@ -51,12 +51,7 @@ def list_visitors(request: HttpRequest) -> HttpResponse:
 
 def create_visitor(request: HttpRequest) -> HttpResponse:
     template_name = 'pages/create-visitor.html'
-
-    if request.method == 'GET':
-        context = {
-            'TicketType': TicketType
-        }
-        return render(request, template_name, context)
+    form = VisitorForm()
 
     if request.method == 'POST':
         form = VisitorForm(request.POST)
@@ -68,20 +63,20 @@ def create_visitor(request: HttpRequest) -> HttpResponse:
 
             return redirect(to='list-visitors')
 
-        context = {
-            'request': request.POST,
-            'form_errors': form.errors.as_data(),
-            'TicketType': TicketType,
-        }
+    context = {
+        'form': form,
+        'TicketType': TicketType,
+    }
 
-        return render(request, template_name, context)
+    return render(request, template_name, context)
 
 def update_visitor(request: HttpRequest, id: int) -> HttpResponse:
     template_name = 'pages/update-visitor.html'
     if request.method == 'GET':
         visitor = Visitor.objects.get(pk=id)
+        form = VisitorForm(instance=visitor)
         context = {
-            'visitor': visitor,
+            'form': form,
             'TicketType': TicketType
         }
         return render(request, template_name, context)
@@ -95,9 +90,7 @@ def update_visitor(request: HttpRequest, id: int) -> HttpResponse:
             return redirect('list-visitors')
 
         context = {
-            'visitor': visitor,
-            'request': request.POST,
-            'form_errors': form.errors.as_data(),
+            'form': form,
             'TicketType': TicketType,
         }
 
@@ -125,4 +118,3 @@ def statistics(request: HttpRequest) -> HttpResponse:
     }
 
     return render(request, 'pages/statistics.html', context)
-1

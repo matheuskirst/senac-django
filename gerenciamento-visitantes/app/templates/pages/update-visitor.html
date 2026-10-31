@@ -11,7 +11,7 @@ Atualizar Visitante
     
     <form action="./" method="post">
         {% csrf_token %}
-        {% if visitor %}
+        {% if form %}
 
         <label for="first_name" class="form-label">Nome</label>
         <input type="text"
@@ -19,11 +19,15 @@ Atualizar Visitante
         id="first_name"
         name="first_name"
         required
-        value="{{ visitor.first_name }}"
+        value="{{ form.first_name.value|default_if_none:'' }}"
         >
-        {% for error in form_errors.first_name %}
-        <p class="text-danger">{{ error.message }}</p>
-        {% endfor %}
+        <div>
+        {% if form.first_name.errors %}
+            {% for error in form.first_name.errors %}
+                <p class="text-danger">{{ error }}</p>
+            {% endfor %}
+        {% else %} &nbsp; {% endif %}
+        </div>
 
         <label for="last_name" class="form-label">Sobrenome</label>
         <input type="text"
@@ -31,56 +35,71 @@ Atualizar Visitante
         id="last_name"
         name="last_name"
         required
-        value="{{ visitor.last_name }}"
+        value="{{ form.last_name.value|default_if_none:'' }}"
         >
-        {% for error in form_errors.last_name %}
-        <p class="text-danger">{{ error.message }}</p>
-        {% endfor %}
+        <div>
+        {% if form.last_name.errors %}
+            {% for error in form.last_name.errors %}
+                <p class="text-danger">{{ error }}</p>
+            {% endfor %}
+        {% else %} &nbsp; {% endif %}
+        </div>
 
         <label for="cpf" class="form-label">CPF</label>
         <input type="number_format"
-        class="form-control {% if form_errors.cpf %} border-danger {% endif %}"
+        class="form-control {% if form.cpf.errors %} border-danger {% endif %}"
         id="cpf"
         name="cpf"
         required
         minlength="11"
         maxlength="11"
-        pattern="\d{3}\.\d{3}\.\d{3}-\d{2}"
-        value="{{ visitor.cpf }}"
+        value="{{ form.cpf.value|default_if_none:'' }}"
         >
-        {% for error in form_errors.cpf %}
-        <p class="text-danger">{{ error.message }}</p>
-        {% endfor %}
+        <div>
+        {% if form.cpf.errors %}
+            {% for error in form.cpf.errors %}
+                <p class="text-danger">{{ error }}</p>
+            {% endfor %}
+        {% else %} &nbsp; {% endif %}
+        </div>
 
         <label for="birthdate" class="form-label">Data de Nascimento</label>
         <input type="date"
-        class="form-control {% if form_errors.birthdate %} border-danger {% endif %}"
+        class="form-control {% if form.birthdate.errors %} border-danger {% endif %}"
         id="birthdate"
         name="birthdate"
         required
-        value="{{ visitor.birthdate|date:'Y-m-d' }}"
+        value="{{ form.birthdate.value|date:'Y-m-d' }}"
         >
-        {% for error in form_errors.birthdate %}
-        <p class="text-danger">{{ error.message }}</p>
-        {% endfor %}
+        <div>
+        {% if form.birthdate.errors %}
+            {% for error in form.birthdate.errors %}
+                <p class="text-danger">{{ error }}</p>
+            {% endfor %}
+        {% else %} &nbsp; {% endif %}
+        </div>
 
         <label for="ticket_date" class="form-label">Data do Ingresso</label>
         <input type="date"
-        class="form-control {% if form_errors.ticket_date %}border-danger {% endif %}"
+        class="form-control {% if form.ticket_date.errors %}border-danger {% endif %}"
         id="ticket_date"
         name="ticket_date"
         required
-        value="{{ visitor.ticket_date|date:'Y-m-d' }}"
+        value="{{ form.ticket_date.value|date:'Y-m-d' }}"
         >
-        {% for error in form_errors.ticket_date %}
-        <p class="text-danger">{{ error.message }}</p>
-        {% endfor %}
+        <div>
+        {% if form.ticket_date.errors %}
+            {% for error in form.ticket_date.errors %}
+                <p class="text-danger">{{ error }}</p>
+            {% endfor %}
+        {% else %} &nbsp; {% endif %}
+        </div>
 
         <label for="ticket_type" class="form-label">Tipo de Ingresso</label>
         <select name="ticket_type" id="ticket_type" class="form-select" required>
             <option value="" selected disabled hidden>-- Selecione --</option>
             {% for value, label in TicketType.choices %}
-            <option value="{{ value }}" {% if visitor.ticket_type == value %} selected {% endif %}>{{ label }}</option>
+            <option value="{{ value }}" {% if form.ticket_type.value == value %} selected {% endif %}>{{ label }}</option>
             {% endfor %}
         </select>
         {% endif %}
