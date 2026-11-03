@@ -26,15 +26,6 @@
         {% block content %}
         {% endblock %}
     </main>
-    <script>
-        const savedTheme = localStorage.getItem('theme');
-        if (!savedTheme){
-            const savedTheme = 'light'
-            localStorage.setItem('theme', savedTheme)
-        }
-
-        const html = document.querySelector('html');
-        html.setAttribute('data-bs-theme', savedTheme);
-    </script>
+    <script src="{% static 'visitors/js/loadTheme.js' %}"></script>
 </body>
 </html>
