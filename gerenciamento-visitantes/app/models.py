@@ -4,8 +4,8 @@ from .validators import validate_birthdate, validate_ticket_date
 
 
 class Visitor(models.Model):
-    first_name = models.CharField(max_length=255)
-    last_name = models.CharField(max_length=255)
+    first_name = models.CharField(max_length=100)
+    last_name = models.CharField(max_length=100)
     cpf = models.CharField(max_length=11, unique=True, error_messages={'unique': 'Este CPF já está cadastrado.'})
     birthdate = models.DateField(validators=[validate_birthdate])
     ticket_date = models.DateField(validators=[validate_ticket_date])

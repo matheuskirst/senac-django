@@ -51,7 +51,10 @@ def list_visitors(request: HttpRequest) -> HttpResponse:
 
 def create_visitor(request: HttpRequest) -> HttpResponse:
     template_name = 'pages/create-visitor.html'
-    form = VisitorForm()
+    form = None
+
+    if request.method == 'GET':
+        form = VisitorForm()
 
     if request.method == 'POST':
         form = VisitorForm(request.POST)
@@ -72,6 +75,8 @@ def create_visitor(request: HttpRequest) -> HttpResponse:
 
 def update_visitor(request: HttpRequest, id: int) -> HttpResponse:
     template_name = 'pages/update-visitor.html'
+    form = None
+
     if request.method == 'GET':
         visitor = Visitor.objects.get(pk=id)
         form = VisitorForm(instance=visitor)
