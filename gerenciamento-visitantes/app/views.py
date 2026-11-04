@@ -82,6 +82,7 @@ def update_visitor(request: HttpRequest, id: int) -> HttpResponse:
         form = VisitorForm(instance=visitor)
         context = {
             'form': form,
+            'ticket_code': visitor.ticket_code,
             'TicketType': TicketType
         }
         return render(request, template_name, context)
@@ -96,6 +97,7 @@ def update_visitor(request: HttpRequest, id: int) -> HttpResponse:
 
         context = {
             'form': form,
+            'ticket_code': visitor.ticket_code,
             'TicketType': TicketType,
         }
 

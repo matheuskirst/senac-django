@@ -116,12 +116,7 @@ Atualizar Visitante
                         <option value="" selected disabled hidden>-- Selecione --</option>
 
                         {% for value, label in TicketType.choices %}
-                        <option value="{{ value }}"
-                        {% if form.ticket_type.value == value|slugify %}
-                        selected 
-                        {% endif %}
-                        >{{ label }}
-                        </option>
+                        <option value="{{ value }}" {% if form.ticket_type.value|slugify == value|slugify %} selected {% endif %}>{{ label }}</option>
                         {% endfor %}
 
                     </select>
@@ -137,35 +132,14 @@ Atualizar Visitante
 
             <div class="col">
                 <div>
-                    <label for="password" class="form-label">Mudar Senha</label>
-                    <input type="password"
-                    class="form-control {% if form.password.errors %} border-danger {% endif %}"
-                    id="password"
-                    name="password"
+                    <label for="ticket_code" class="form-label">Número do ingresso</label>
+                    <input type="ticket_code"
+                    class="form-control"
+                    id="ticket_code"
+                    name="ticket_code"
+                    value="{{ ticket_code }}"
+                    disabled
                     >
-                    <div>
-                    {% if form.password.errors %}
-                        {% for error in form.password.errors %}
-                            <span class="text-danger">{{ error }}</span>
-                        {% endfor %}
-                    {% else %} &nbsp; {% endif %}
-                    </div>
-                </div>
-
-                <div>
-                    <label for="confirm_password" class="form-label">Confirmar Senha</label>
-                    <input type="password"
-                    class="form-control {% if form.confirm_password.errors %} border-danger {% endif %}"
-                    id="confirm_password"
-                    name="confirm_password"
-                    >
-                    <div>
-                    {% if form.confirm_password.errors %}
-                        {% for error in form.confirm_password.errors %}
-                            <span class="text-danger">{{ error }}</span>
-                        {% endfor %}
-                    {% else %} &nbsp; {% endif %}
-                    </div>
                 </div>
 
                 <div class="d-flex justify-content-end gap-3">

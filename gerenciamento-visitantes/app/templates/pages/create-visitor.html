@@ -115,12 +115,7 @@ Cadastrar Visitante
                         <option value="" selected disabled hidden>-- Selecione --</option>
                         
                         {% for value, label in TicketType.choices %}
-                        <option value="{{ value }}"
-                        {% if form.ticket_type.value == value|slugify %}
-                        selected
-                        {% endif %}
-                        >{{ label }}
-                        </option>
+                        <option value="{{ value }}" {% if form.ticket_type.value|slugify == value|slugify %} selected {% endif %}>{{ label }}</option>
                         {% endfor %}
 
                     </select>
