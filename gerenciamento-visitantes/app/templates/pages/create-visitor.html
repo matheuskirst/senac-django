@@ -80,7 +80,7 @@ Cadastrar Visitante
                     id="birthdate"
                     name="birthdate"
                     required
-                    value="{{ form.birthdate.value|date:'Y-m-d' }}"
+                    value="{{ form.birthdate.value|date:'Y-m-d'|default:form.birthdate.value }}"
                     >
                     <div>
                     {% if form.birthdate.errors %}
@@ -98,7 +98,7 @@ Cadastrar Visitante
                     id="ticket_date"
                     name="ticket_date"
                     aria-required=""
-                    value="{{ form.ticket_date.value|date:'Y-m-d' }}"
+                    value="{{ form.ticket_date.value|date:'Y-m-d'|default:form.ticket_date.value }}"
                     >
                     <div>
                     {% if form.ticket_date.errors %}
@@ -113,14 +113,16 @@ Cadastrar Visitante
                     <label for="ticket_type" class="form-label">Tipo de Ingresso</label>
                     <select name="ticket_type" id="ticket_type" class="form-select" required>
                         <option value="" selected disabled hidden>-- Selecione --</option>
+                        
                         {% for value, label in TicketType.choices %}
                         <option value="{{ value }}"
-                        {% if form.ticket_type.value == value %}
+                        {% if form.ticket_type.value == value|slugify %}
                         selected
                         {% endif %}
                         >{{ label }}
                         </option>
                         {% endfor %}
+
                     </select>
                     <div>
                     {% if form.ticket_type.errors %}
