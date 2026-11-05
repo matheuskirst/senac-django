@@ -10,6 +10,5 @@ class VisitorForm(ModelForm):
             'cpf',
             'birthdate',
             'ticket_date',
-            'ticket_type',
-            'ticket_code'
+            'ticket_type'
         ]

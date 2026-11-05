@@ -3,7 +3,7 @@ from datetime import datetime
 
 from django.db.models import Q, Count, Avg
 from django.db.models.functions import ExtractYear
-from django.http import HttpRequest, HttpResponse, HttpResponseNotFound
+from django.http import HttpRequest, HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, redirect
 
 from .models import Visitor
@@ -49,7 +49,7 @@ def list_visitors(request: HttpRequest) -> HttpResponse:
 
     return render(request, 'pages/list-visitors.html', context)
 
-def create_visitor(request: HttpRequest) -> HttpResponse:
+def create_visitor(request: HttpRequest) -> HttpResponse | HttpResponseRedirect:
     template_name = 'pages/create-visitor.html'
     form = None
 
@@ -73,7 +73,7 @@ def create_visitor(request: HttpRequest) -> HttpResponse:
 
     return render(request, template_name, context)
 
-def update_visitor(request: HttpRequest, id: int) -> HttpResponse:
+def update_visitor(request: HttpRequest, id: int) -> HttpResponse | HttpResponseRedirect:
     template_name = 'pages/update-visitor.html'
     form = None
 
@@ -103,7 +103,7 @@ def update_visitor(request: HttpRequest, id: int) -> HttpResponse:
 
         return render(request, template_name, context)
 
-def delete_visitor(request: HttpRequest, id: int) -> HttpResponse:
+def delete_visitor(request: HttpRequest, id: int) -> HttpResponse | HttpResponseRedirect:
     if request.method == 'POST':
         visitor = Visitor.objects.get(pk=id)
         visitor.delete()
