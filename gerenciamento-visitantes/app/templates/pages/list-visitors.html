@@ -17,7 +17,7 @@ Visitantes
                 <div class="d-flex gap-3 align-items-end    ">
                     <div class="col-md-5">
                         <label for="search_name_or_cpf" class="form-label">Buscar por nome ou CPF</label>
-                        <input type="text" class="form-control" id="search_name_or_cpf" name="search_name_or_cpf" value="{{ search_name_or_cpf }}">
+                        <input type="text" class="form-control" id="search_name_or_cpf" name="search_name_or_cpf" value="{{ search.name_or_cpf }}">
                     </div>
 
                     <div class="col-md-3">
@@ -25,14 +25,14 @@ Visitantes
                         <select name="ticket-type" id="ticket-type" class="form-select ">
                             <option value="all" selected>Todos</option>
                             {% for label in TicketType.labels %}
-                            <option value="{{ label.lower }}" {% if ticket_type == label.lower %} selected {% endif %}>{{ label }}</option>
+                            <option value="{{ label.lower }}" {% if search.ticket_type == label.lower %} selected {% endif %}>{{ label }}</option>
                             {% endfor %}
                         </select>
                     </div>
 
                     <div class="col-md-3">
                         <label for="ticket_date">Data do ingresso</label>
-                        <input type="date" name="ticket_date" class="form-control" id="ticket_date" value="{{ ticket_date }}">
+                        <input type="date" name="ticket_date" class="form-control" id="ticket_date" value="{{ search.ticket_date }}">
                     </div>
 
                     <input type="submit" value="Buscar" class="btn btn-primary btn-custom">

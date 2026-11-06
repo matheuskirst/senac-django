@@ -1,5 +1,5 @@
 from uuid import uuid4
-from datetime import datetime
+from datetime import date
 
 from django.db.models import Q, Count, Avg
 from django.db.models.functions import ExtractYear
@@ -19,6 +19,12 @@ def list_visitors(request: HttpRequest) -> HttpResponse:
     search_ticket_type = request.GET.get(key='ticket-type', default='')
     search_ticket_date = request.GET.get(key='ticket_date', default='')
 
+    search_parameters = {
+        'name_or_cpf': search_name_or_cpf,
+        'ticket_type': search_ticket_type,
+        'ticket_date': search_ticket_date
+    }
+
     visitors = Visitor.objects.all()
 
     visitors = visitors.filter(
@@ -34,17 +40,15 @@ def list_visitors(request: HttpRequest) -> HttpResponse:
 
     if search_ticket_date:
         try:
-            ticket_date = datetime.strptime(search_ticket_date, '%Y-%m-%d')
+            ticket_date = date.strptime(search_ticket_date, '%Y-%m-%d')
         except:
             ticket_date = ''
         visitors = visitors.filter(ticket_date=ticket_date)
 
     context = {
         'visitors': visitors,
-        'search_name_or_cpf': search_name_or_cpf,
-        'ticket_type': search_ticket_type,
         'TicketType': TicketType,
-        'ticket_date': search_ticket_date,
+        'search': search_parameters,
     }
 
     return render(request, 'pages/list-visitors.html', context)
