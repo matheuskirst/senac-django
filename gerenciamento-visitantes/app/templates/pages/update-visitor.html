@@ -82,7 +82,7 @@ Atualizar Visitante
                     id="birthdate"
                     name="birthdate"
                     required
-                    value="{{ form.birthdate.value|date:'Y-m-d'|default:form.birthdate.value }}"
+                    value="{{ form.instance.birthdate|date:'Y-m-d' }}"
                     >
                     <div>
                     {% if form.birthdate.errors %}
@@ -100,7 +100,7 @@ Atualizar Visitante
                     id="ticket_date"
                     name="ticket_date"
                     required
-                    value="{{ form.ticket_date.value|date:'Y-m-d'|default:form.ticket_date.value }}"
+                    value="{{ form.instance.ticket_date|date:'Y-m-d' }}"
                     >
                     <div>
                     {% if form.ticket_date.errors %}
